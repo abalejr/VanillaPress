@@ -5,7 +5,8 @@
 const pageContentEl = document.getElementById( 'pageContent' ),
       pageTitleEl = document.getElementById( 'pageTitle' )
       logoLink = document.querySelector('#siteName a');
-let postLinks;
+let postLinks,
+    sortedPosts = [];
 /**
  * The main app object.
  *
@@ -29,24 +30,39 @@ const vanillaPress = {
             pageTitleEl.innerHTML = '';
         }
         for (i = 0; i < localStorage.length; i++) {
-            let currentPost = JSON.parse( localStorage.getItem( localStorage.key( i ) ) );
-            if (currentPost.type === 'posts') {
-                var currentSlug = currentPost.slug,
-                    postTitle = document.createTextNode( currentPost.title ),
-                    postContent = currentPost.content,
-                    postHeaderEl = document.createElement( 'h3' ),
-                    postLinkEl = document.createElement( 'a' ),
-                    postEl = document.createElement( 'article' );
-
-                postLinkEl.setAttribute('href', '#' + currentSlug);
-                postLinkEl.classList.add('postLink');
-
-                postLinkEl.appendChild( postTitle );
-                postHeaderEl.appendChild( postLinkEl );
-                postEl.appendChild( postHeaderEl );
-                pageContentEl.appendChild( postEl );
-                postEl.innerHTML += postContent;
+            let storedItem = JSON.parse( localStorage.getItem( localStorage.key( i ) ) );
+            if (storedItem.type === 'posts') {
+                sortedPosts.push(storedItem);
             }
+        }
+        sortedPosts.sort(function(a, b) {
+            const dateA = Date.parse(a.date),
+                  dateB = Date.parse(b.date);
+            let comparison = 0;
+            if (dateA > dateB) {
+                comparison = 1;
+            } else if (dateA < dateB) {
+                comparison = -1;
+            }
+            return comparison;
+        });
+        for (i = 0; i < sortedPosts.length; i++) {
+            let currentPost = sortedPosts[i],
+                currentSlug = currentPost.slug,
+                postTitle = document.createTextNode( currentPost.title ),
+                postContent = currentPost.content,
+                postHeaderEl = document.createElement( 'h3' ),
+                postLinkEl = document.createElement( 'a' ),
+                postEl = document.createElement( 'article' );
+
+            postLinkEl.setAttribute('href', '#' + currentSlug);
+            postLinkEl.classList.add('postLink');
+
+            postLinkEl.appendChild( postTitle );
+            postHeaderEl.appendChild( postLinkEl );
+            postEl.appendChild( postHeaderEl );
+            pageContentEl.appendChild( postEl );
+            postEl.innerHTML += postContent;
         }
         postLinks = document.getElementsByClassName('postLink');
         for (i = 0; i < postLinks.length; i++) {
