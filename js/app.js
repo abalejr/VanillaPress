@@ -42,6 +42,8 @@ const vanillaPress = {
             }
             return comparison;
         });
+        vanillaPress.displayAll();
+        logoLink.addEventListener( 'click', vanillaPress.displayAll, false );
     },
     displayAll: function() {
         if (pageContentEl.innerHTML != '') {
@@ -83,6 +85,3 @@ const vanillaPress = {
     }
 };
 vanillaPress.init();
-vanillaPress.displayAll();
-
-logoLink.addEventListener( 'click', vanillaPress.displayAll, false );
