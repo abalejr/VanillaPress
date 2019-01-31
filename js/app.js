@@ -7,7 +7,7 @@ const pageContentEl = document.getElementById('pageContent');
  * The main app object.
  *
  */
-var vanillaPress = {
+const vanillaPress = {
 
     init: function() {
 
@@ -21,7 +21,7 @@ var vanillaPress = {
     },
     displayAll: function() {
         for (i = 0; i < localStorage.length; i++) {
-            var currentPost = JSON.parse(localStorage.getItem(localStorage.key(i))),
+            let currentPost = JSON.parse(localStorage.getItem(localStorage.key(i))),
                 currentSlug = currentPost.slug,
                 postTitle = document.createTextNode(currentPost.title),
                 postContent = currentPost.content,
@@ -30,7 +30,7 @@ var vanillaPress = {
                 postEl = document.createElement('article');
 
             postLinkEl.setAttribute('href', '#' + currentSlug);
-            
+
             postLinkEl.appendChild(postTitle);
             postHeaderEl.appendChild(postLinkEl);
             postEl.appendChild(postHeaderEl);
@@ -45,3 +45,4 @@ vanillaPress.init();
 // Add your custom code starting here:
 
 vanillaPress.displayAll();
+
