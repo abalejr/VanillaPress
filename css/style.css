@@ -178,6 +178,12 @@ body {
 #view #menuIcon a img {
   vertical-align: middle;
 }
+#view #pageContent article {
+  margin: 10px 0 0;
+  border-top: 1px #ededed solid;
+  padding: 5px 0 10px;
+}
+
 
 @media only screen and (max-width: 767px) {
   #view #MainNav {
