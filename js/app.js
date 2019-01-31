@@ -46,6 +46,9 @@ const vanillaPress = {
             postEl.innerHTML += postContent;
         }
         postLinks = document.getElementsByClassName('postLink');
+        for (i = 0; i < postLinks.length; i++) {
+            postLinks[i].addEventListener( 'click', vanillaPress.displayOne, false );
+        }
     },
     displayOne: function(clicked) {
         clicked.preventDefault();
@@ -60,13 +63,6 @@ const vanillaPress = {
 };
 
 vanillaPress.init();
-
-// Add your custom code starting here:
-
 vanillaPress.displayAll();
-
-for (i = 0; i < postLinks.length; i++) {
-    postLinks[i].addEventListener( 'click', vanillaPress.displayOne, false );
-}
 
 logoLink.addEventListener( 'click', vanillaPress.displayAll, false );
