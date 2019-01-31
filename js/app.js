@@ -3,7 +3,8 @@
  * Main app file. Initializes app components.
  */
 const pageContentEl = document.getElementById( 'pageContent' ),
-      pageTitleEl = document.getElementById( 'pageTitle' );
+      pageTitleEl = document.getElementById( 'pageTitle' )
+      logoLink = document.querySelector('#siteName a');
 let postLinks;
 /**
  * The main app object.
@@ -22,6 +23,10 @@ const vanillaPress = {
         }
     },
     displayAll: function() {
+        if (pageContentEl.innerHTML != '') {
+            pageContentEl.innerHTML = '';
+            pageTitleEl.innerHTML = '';
+        }
         for (i = 0; i < localStorage.length; i++) {
             let currentPost = JSON.parse( localStorage.getItem( localStorage.key( i ) ) ),
                 currentSlug = currentPost.slug,
@@ -49,7 +54,7 @@ const vanillaPress = {
             clickedTitle = document.createTextNode( clickedPost.title ),
             clickedContent = clickedPost.content;
 
-        pageTitleEl.appendChild(clickedTitle);
+        pageTitleEl.appendChild( clickedTitle );
         pageContentEl.innerHTML = clickedContent;
     }
 };
@@ -61,5 +66,7 @@ vanillaPress.init();
 vanillaPress.displayAll();
 
 for (i = 0; i < postLinks.length; i++) {
-    postLinks[i].addEventListener('click', vanillaPress.displayOne, false);
+    postLinks[i].addEventListener( 'click', vanillaPress.displayOne, false );
 }
+
+logoLink.addEventListener( 'click', vanillaPress.displayAll, false );
