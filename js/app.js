@@ -29,13 +29,13 @@ var vanillaPress = {
                 postLinkEl = document.createElement('a'),
                 postEl = document.createElement('article');
 
+            postLinkEl.setAttribute('href', '#' + currentSlug);
+            
             postLinkEl.appendChild(postTitle);
             postHeaderEl.appendChild(postLinkEl);
             postEl.appendChild(postHeaderEl);
             pageContentEl.appendChild(postEl);
             postEl.innerHTML += postContent;
-
-            postLinkEl.setAttribute('href', '#' + currentSlug);
         }
     }
 };
