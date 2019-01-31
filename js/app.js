@@ -18,10 +18,12 @@ const vanillaPress = {
         // Add any functions here you want
         // to run to start the application
         console.log( jsonData );
-        for (i = 0; i < JSON.parse( jsonData ).length; i++) {
-            let postData = JSON.parse( jsonData )[i];
-            localStorage.setItem( postData['slug'], JSON.stringify( postData ) );
-            localStorage.setItem('initialized', 'true');
+        if (!localStorage.getItem('initialized')) {
+            for (i = 0; i < JSON.parse( jsonData ).length; i++) {
+                let postData = JSON.parse( jsonData )[i];
+                localStorage.setItem( postData['slug'], JSON.stringify( postData ) );
+                localStorage.setItem('initialized', 'true');
+            }
         }
         for (i = 0; i < localStorage.length; i++) {
             let storedItem = JSON.parse( localStorage.getItem( localStorage.key( i ) ) );
@@ -80,7 +82,6 @@ const vanillaPress = {
         pageContentEl.innerHTML = clickedContent;
     }
 };
-
 vanillaPress.init();
 vanillaPress.displayAll();
 
