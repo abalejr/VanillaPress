@@ -2,7 +2,9 @@
 /**
  * Main app file. Initializes app components.
  */
-const pageContentEl = document.getElementById( 'pageContent' );
+const pageContentEl = document.getElementById( 'pageContent' ),
+      pageTitleEl = document.getElementById( 'pageTitle' );
+let postLinks;
 /**
  * The main app object.
  *
@@ -30,6 +32,7 @@ const vanillaPress = {
                 postEl = document.createElement( 'article' );
 
             postLinkEl.setAttribute('href', '#' + currentSlug);
+            postLinkEl.classList.add('postLink');
 
             postLinkEl.appendChild( postTitle );
             postHeaderEl.appendChild( postLinkEl );
@@ -37,6 +40,17 @@ const vanillaPress = {
             pageContentEl.appendChild( postEl );
             postEl.innerHTML += postContent;
         }
+        postLinks = document.getElementsByClassName('postLink');
+    },
+    displayOne: function(clicked) {
+        clicked.preventDefault();
+        let clickedHref = clicked.target.href,
+            clickedPost = JSON.parse( localStorage.getItem( clickedHref.slice( clickedHref.indexOf( '#' ) + 1 ) ) ),
+            clickedTitle = document.createTextNode( clickedPost.title ),
+            clickedContent = clickedPost.content;
+
+        pageTitleEl.appendChild(clickedTitle);
+        pageContentEl.innerHTML = clickedContent;
     }
 };
 
@@ -46,3 +60,6 @@ vanillaPress.init();
 
 vanillaPress.displayAll();
 
+for (i = 0; i < postLinks.length; i++) {
+    postLinks[i].addEventListener('click', vanillaPress.displayOne, false);
+}
