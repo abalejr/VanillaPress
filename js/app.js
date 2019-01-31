@@ -20,6 +20,7 @@ const vanillaPress = {
         for (i = 0; i < JSON.parse( jsonData ).length; i++) {
             let postData = JSON.parse( jsonData )[i];
             localStorage.setItem( postData['slug'], JSON.stringify( postData ) );
+            localStorage.setItem('initialized', 'true');
         }
     },
     displayAll: function() {
@@ -28,22 +29,24 @@ const vanillaPress = {
             pageTitleEl.innerHTML = '';
         }
         for (i = 0; i < localStorage.length; i++) {
-            let currentPost = JSON.parse( localStorage.getItem( localStorage.key( i ) ) ),
-                currentSlug = currentPost.slug,
-                postTitle = document.createTextNode( currentPost.title ),
-                postContent = currentPost.content,
-                postHeaderEl = document.createElement( 'h3' ),
-                postLinkEl = document.createElement( 'a' ),
-                postEl = document.createElement( 'article' );
+            let currentPost = JSON.parse( localStorage.getItem( localStorage.key( i ) ) );
+            if (currentPost.type === 'posts') {
+                var currentSlug = currentPost.slug,
+                    postTitle = document.createTextNode( currentPost.title ),
+                    postContent = currentPost.content,
+                    postHeaderEl = document.createElement( 'h3' ),
+                    postLinkEl = document.createElement( 'a' ),
+                    postEl = document.createElement( 'article' );
 
-            postLinkEl.setAttribute('href', '#' + currentSlug);
-            postLinkEl.classList.add('postLink');
+                postLinkEl.setAttribute('href', '#' + currentSlug);
+                postLinkEl.classList.add('postLink');
 
-            postLinkEl.appendChild( postTitle );
-            postHeaderEl.appendChild( postLinkEl );
-            postEl.appendChild( postHeaderEl );
-            pageContentEl.appendChild( postEl );
-            postEl.innerHTML += postContent;
+                postLinkEl.appendChild( postTitle );
+                postHeaderEl.appendChild( postLinkEl );
+                postEl.appendChild( postHeaderEl );
+                pageContentEl.appendChild( postEl );
+                postEl.innerHTML += postContent;
+            }
         }
         postLinks = document.getElementsByClassName('postLink');
         for (i = 0; i < postLinks.length; i++) {
@@ -62,7 +65,9 @@ const vanillaPress = {
     }
 };
 
-vanillaPress.init();
+if (!localStorage.getItem('initialized')) {
+    vanillaPress.init();
+}
 vanillaPress.displayAll();
 
 logoLink.addEventListener( 'click', vanillaPress.displayAll, false );
