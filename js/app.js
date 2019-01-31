@@ -3,8 +3,9 @@
  * Main app file. Initializes app components.
  */
 const pageContentEl = document.getElementById( 'pageContent' ),
-      pageTitleEl = document.getElementById( 'pageTitle' )
-      logoLink = document.querySelector('#siteName a');
+      pageTitleEl = document.getElementById( 'pageTitle' ),
+      logoLink = document.querySelector('#siteName a'),
+      sortSelect = document.getElementById('sortOptions');
 let postLinks,
     sortedPosts = [];
 /**
@@ -34,6 +35,7 @@ const vanillaPress = {
         sortedPosts.sort( vanillaPress.sortOptions.byDateDescending );
         vanillaPress.displayAll();
         logoLink.addEventListener( 'click', vanillaPress.displayAll, false );
+        sortSelect.onchange = vanillaPress.selectSortOption;
     },
     displayAll: function() {
         if ( pageContentEl.innerHTML != '' ) {
@@ -72,6 +74,43 @@ const vanillaPress = {
 
         pageTitleEl.appendChild( clickedTitle );
         pageContentEl.innerHTML = clickedContent;
+    },
+    selectSortOption: function() {
+        let sortChoice = this.value;
+        console.log( sortChoice );
+        switch ( sortChoice ) {
+            case 'byDateAscending':
+                sortedPosts.sort( vanillaPress.sortOptions.byDateAscending );
+                vanillaPress.displayAll();
+                break;
+            case 'byIdAscending':
+                sortedPosts.sort( vanillaPress.sortOptions.byIdAscending );
+                vanillaPress.displayAll();
+                break;
+            case 'byModifiedAscending':
+                sortedPosts.sort( vanillaPress.sortOptions.byModifiedAscending );
+                vanillaPress.displayAll();
+                break;
+            case 'byTitleAscending':
+                sortedPosts.sort( vanillaPress.sortOptions.byTitleAscending );
+                vanillaPress.displayAll();
+                break;
+            case 'byDateDescending':
+                sortedPosts.sort( vanillaPress.sortOptions.byDateDescending );
+                vanillaPress.displayAll();
+                break;
+            case 'byIdDescending':
+                sortedPosts.sort( vanillaPress.sortOptions.byDateDescending );
+                vanillaPress.displayAll();
+                break;
+            case 'byModifiedDescending':
+                sortedPosts.sort( vanillaPress.sortOptions.byModifiedDescending );
+                vanillaPress.displayAll();
+                break;
+            case 'byTitleDescending':
+                sortedPosts.sort( vanillaPress.sortOptions.byTitleDescending );
+                vanillaPress.displayAll();
+        }
     },
     sortOptions: {
         byDateAscending: function( a, b ) {
