@@ -20,12 +20,11 @@ var vanillaPress = {
         }
     },
     displayAll: function() {
-        for (i = 0; i < JSON.parse(jsonData).length; i++) {
-            var currentData = JSON.parse(jsonData)[i],
-                currentSlug = currentData['slug'],
-                currentPost = JSON.parse(localStorage.getItem(currentSlug)),
+        for (i = 0; i < localStorage.length; i++) {
+            var currentPost = JSON.parse(localStorage.getItem(localStorage.key(i))),
+                currentSlug = currentPost.slug,
                 postTitle = document.createTextNode(currentPost.title),
-                postContent = document.createTextNode(currentPost.content),
+                postContent = currentPost.content,
                 postHeaderEl = document.createElement('h3'),
                 postLinkEl = document.createElement('a'),
                 postEl = document.createElement('article');
@@ -33,8 +32,8 @@ var vanillaPress = {
             postLinkEl.appendChild(postTitle);
             postHeaderEl.appendChild(postLinkEl);
             postEl.appendChild(postHeaderEl);
-            postEl.appendChild(postContent);
             pageContentEl.appendChild(postEl);
+            postEl.innerHTML += postContent;
 
             postLinkEl.setAttribute('href', '#' + currentSlug);
         }
