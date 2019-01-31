@@ -23,12 +23,6 @@ const vanillaPress = {
             localStorage.setItem( postData['slug'], JSON.stringify( postData ) );
             localStorage.setItem('initialized', 'true');
         }
-    },
-    displayAll: function() {
-        if (pageContentEl.innerHTML != '') {
-            pageContentEl.innerHTML = '';
-            pageTitleEl.innerHTML = '';
-        }
         for (i = 0; i < localStorage.length; i++) {
             let storedItem = JSON.parse( localStorage.getItem( localStorage.key( i ) ) );
             if (storedItem.type === 'posts') {
@@ -46,6 +40,12 @@ const vanillaPress = {
             }
             return comparison;
         });
+    },
+    displayAll: function() {
+        if (pageContentEl.innerHTML != '') {
+            pageContentEl.innerHTML = '';
+            pageTitleEl.innerHTML = '';
+        }
         for (i = 0; i < sortedPosts.length; i++) {
             let currentPost = sortedPosts[i],
                 currentSlug = currentPost.slug,
@@ -81,9 +81,7 @@ const vanillaPress = {
     }
 };
 
-if (!localStorage.getItem('initialized')) {
-    vanillaPress.init();
-}
+vanillaPress.init();
 vanillaPress.displayAll();
 
 logoLink.addEventListener( 'click', vanillaPress.displayAll, false );
