@@ -1,31 +1,13 @@
 /**
  * Main app file. Initializes app components.
- */
-const pageContentEl = document.getElementById( 'pageContent' ),
-      pageTitleEl = document.getElementById( 'pageTitle' ),
-      logoLink = document.querySelector( '#siteName a' ),
-      sortSelect = document.getElementById( 'sortOptions' );
-let postLinks,
-    sortedPosts = [];
-/**
+ * 
  * The main app object.
  *
  */
 const vanillaPress = {
     init: function() {
-        if ( ! localStorage.getItem( 'initialized' ) ) {
-            for ( i = 0; i < JSON.parse( jsonData ).length; i++ ) {
-                let postData = JSON.parse( jsonData )[i];
-                localStorage.setItem( postData['slug'], JSON.stringify( postData ) );
-                localStorage.setItem( 'initialized', 'true' );
-            }
-        }
-        for ( i = 0; i < localStorage.length; i++ ) {
-            let storedItem = JSON.parse( localStorage.getItem( localStorage.key( i ) ) );
-            if ( storedItem.type === 'posts' ) {
-                sortedPosts.push( storedItem );
-            }
-        }
+        storePosts();
+        buildPostArray();
         sortedPosts.sort( vanillaPress.sortOptions.byDateDescending );
         vanillaPress.displayAll();
         logoLink.addEventListener( 'click', vanillaPress.displayAll, false );
