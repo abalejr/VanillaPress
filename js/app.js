@@ -1,11 +1,10 @@
-
 /**
  * Main app file. Initializes app components.
  */
 const pageContentEl = document.getElementById( 'pageContent' ),
       pageTitleEl = document.getElementById( 'pageTitle' ),
-      logoLink = document.querySelector('#siteName a'),
-      sortSelect = document.getElementById('sortOptions');
+      logoLink = document.querySelector( '#siteName a' ),
+      sortSelect = document.getElementById( 'sortOptions' );
 let postLinks,
     sortedPosts = [];
 /**
@@ -13,12 +12,7 @@ let postLinks,
  *
  */
 const vanillaPress = {
-
     init: function() {
-
-        // Add any functions here you want
-        // to run to start the application
-        console.log( jsonData );
         if ( ! localStorage.getItem( 'initialized' ) ) {
             for ( i = 0; i < JSON.parse( jsonData ).length; i++ ) {
                 let postData = JSON.parse( jsonData )[i];
@@ -51,8 +45,8 @@ const vanillaPress = {
                 postLinkEl = document.createElement( 'a' ),
                 postEl = document.createElement( 'article' );
 
-            postLinkEl.setAttribute('href', '#' + currentSlug);
-            postLinkEl.classList.add('postLink');
+            postLinkEl.setAttribute( 'href', '#' + currentSlug );
+            postLinkEl.classList.add( 'postLink' );
 
             postLinkEl.appendChild( postTitle );
             postHeaderEl.appendChild( postLinkEl );
@@ -60,7 +54,7 @@ const vanillaPress = {
             pageContentEl.appendChild( postEl );
             postEl.innerHTML += postContent;
         }
-        postLinks = document.getElementsByClassName('postLink');
+        postLinks = document.getElementsByClassName( 'postLink' );
         for ( i = 0; i < postLinks.length; i++ ) {
             postLinks[i].addEventListener( 'click', vanillaPress.displayOne, false );
         }
@@ -76,41 +70,32 @@ const vanillaPress = {
         pageContentEl.innerHTML = clickedContent;
     },
     selectSortOption: function() {
-        let sortChoice = this.value;
-        console.log( sortChoice );
-        switch ( sortChoice ) {
+        switch ( this.value ) {
             case 'byDateAscending':
                 sortedPosts.sort( vanillaPress.sortOptions.byDateAscending );
-                vanillaPress.displayAll();
                 break;
             case 'byIdAscending':
                 sortedPosts.sort( vanillaPress.sortOptions.byIdAscending );
-                vanillaPress.displayAll();
                 break;
             case 'byModifiedAscending':
                 sortedPosts.sort( vanillaPress.sortOptions.byModifiedAscending );
-                vanillaPress.displayAll();
                 break;
             case 'byTitleAscending':
                 sortedPosts.sort( vanillaPress.sortOptions.byTitleAscending );
-                vanillaPress.displayAll();
                 break;
             case 'byDateDescending':
                 sortedPosts.sort( vanillaPress.sortOptions.byDateDescending );
-                vanillaPress.displayAll();
                 break;
             case 'byIdDescending':
                 sortedPosts.sort( vanillaPress.sortOptions.byDateDescending );
-                vanillaPress.displayAll();
                 break;
             case 'byModifiedDescending':
                 sortedPosts.sort( vanillaPress.sortOptions.byModifiedDescending );
-                vanillaPress.displayAll();
                 break;
             case 'byTitleDescending':
                 sortedPosts.sort( vanillaPress.sortOptions.byTitleDescending );
-                vanillaPress.displayAll();
         }
+        vanillaPress.displayAll();
     },
     sortOptions: {
         byDateAscending: function( a, b ) {
