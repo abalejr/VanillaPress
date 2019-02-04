@@ -20,7 +20,7 @@ model.init = function() {
 
     model.updateLocalStore( jsonData );
 
-}
+};
 
 /**
  * Gets posts from local store
@@ -32,7 +32,7 @@ model.getPosts = function() {
     let posts = model.getLocalStore();
     return posts;
 
-}
+};
 
 /**
  * Get a single post based on url slug
@@ -56,7 +56,7 @@ model.getPost = function( slug ) {
 
     return null;
 
-}
+};
 
 /**
  * Gets content from local store
@@ -81,7 +81,7 @@ model.getLocalStore = function( ) {
 
     return posts.sort( model.sortCompare );
 
-}
+};
 
 /**
  * Saves temporary store to local storage.
@@ -102,7 +102,7 @@ model.updateLocalStore = function( store ) {
 
     localStorage.setItem( 'sortSettings', JSON.stringify( model.sortSettings ) );
 
-}
+};
 
 
 /**
@@ -122,7 +122,7 @@ model.removeLocalStore = function( name ) {
 
     }    
 
-}
+};
 
 /** Sets sortSettings based on user choice
  *
@@ -137,7 +137,7 @@ model.setSortSettings = function( sortSelectEl ) {
 
     localStorage.setItem( 'sortSettings', JSON.stringify( model.sortSettings ) );
 
-}
+};
 
 /**
  * Comparison function for post sorting
@@ -204,4 +204,4 @@ model.sortCompare = function( a, b ) {
     }
 
     return comparison;
-}
+};

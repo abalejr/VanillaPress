@@ -13,7 +13,7 @@ helpers.getPageTitleEl = function() {
 
     return document.getElementById( 'pageTitle' );
 
-}
+};
 
 /**
  * Get the main content element of the current page
@@ -24,7 +24,7 @@ helpers.getPageContentEl = function() {
 
     return document.getElementById( 'pageContent' );
 
-}
+};
 
 /**
  * Get the main content element of the current page
@@ -35,4 +35,4 @@ helpers.getSortSettingsEl = function() {
 
     return document.getElementById( 'sortOptions' );
 
-}
+};

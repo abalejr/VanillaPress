@@ -20,7 +20,7 @@ router.init = function() {
     router.listenPageChange();
     router.listenSortChange();
 
-}
+};
 
 /**
  * Gets the slug from the URL

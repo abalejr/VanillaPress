@@ -27,7 +27,7 @@ view.loadBlogPosts = function() {
 
     primaryContentEl.appendChild( postMarkup );
 
-}
+};
 
 /**
  * Loads a single blog post
@@ -43,7 +43,7 @@ view.loadBlogPost = function( slug ) {
     titleEl.innerHTML = post.title;
     contentEl.innerHTML = post.content;
 
-}
+};
 
 /**
  * Creates Markup for Blog Posts
@@ -70,7 +70,7 @@ view.createPostMarkup = function( post ) {
 
     return articleEl;
 
-}
+};
 
 /**
  * Clears title and main content from page
@@ -84,4 +84,4 @@ view.clearContent = function() {
     titleEl.innerHTML = '';
     contentEl.innerHTML = '';
 
-}
+};
