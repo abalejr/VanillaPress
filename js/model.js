@@ -3,7 +3,11 @@
  *
  */
 const model = {
-    sortOptions: {}
+    sortSettings: {
+
+        sortOption: 'date',
+        sortDirection: 'descending'
+    }
 };
 
 /**
@@ -69,7 +73,7 @@ model.getLocalStore = function( ) {
         
     }
 
-    return posts;
+    return posts.sort( model.sortCompare );
 
 }
 
@@ -108,21 +112,11 @@ model.removeLocalStore = function() {
  *
  */
 
-model.getSortSettings = function() {
+model.setSortSettings = function() {
 
-    const sortSettings = {};
+    model.sortSettings.sortOption = this.dataset.sortOption;
+    model.sortSettings.sortDirection = this.dataset.sortDirection;
 
-    sortSettings.sortOption = 'date';
-    sortSettings.sortDirection = 'descending';
-
-    if ( this ) {
-
-        sortSettings.sortOption = this.dataset.sortOption;
-        sortSettings.sortDirection = this.dataset.sortDirection;
-
-    }
-
-    return sortSettings;
 }
 
 /**
@@ -132,13 +126,9 @@ model.getSortSettings = function() {
  *
  * @return sortedPosts {array} Posts sorted according to user selected option
  */
-model.getSortedPosts = function( sortSettings ) {
+model.getSortedPosts = function( posts, sortSettings ) {
 
-    const sortOption = sortSettings.sortOption,
-          sortDirection = sortSettings.sortDirection;
-
-    let sortedPosts = model.buildPostArray();
-    sortedPosts.sort( model.sortCompare );
+    let sortedPosts = posts.sort( model.sortCompare );
 
     return sortedPosts;
 
@@ -153,7 +143,8 @@ model.getSortedPosts = function( sortSettings ) {
  * @return comparison {integer} Result of the comparison
  */
 model.sortCompare = function( a, b ) {
-    const sortOption = model.getSortSettings
+    const sortOption = model.sortSettings.sortOption,
+          sortDirection = model.sortSettings.sortDirection;
     let comparison = 0,
         itemA,
         itemB;
@@ -182,11 +173,11 @@ model.sortCompare = function( a, b ) {
 
     if ( sortDirection === 'ascending' ) {
 
-        if ( itemA > itemB ) {
+        if ( itemA < itemB ) {
 
             comparison = 1;
 
-        } else if ( itemA < itemB ) {
+        } else if ( itemA > itemB ) {
 
             comparison = -1;
 
@@ -194,11 +185,11 @@ model.sortCompare = function( a, b ) {
 
     } else if ( sortDirection === 'descending' ) {
 
-        if ( itemA < itemB ) {
+        if ( itemA > itemB ) {
 
             comparison = 1;
 
-        } else if ( itemA > itemB ) {
+        } else if ( itemA < itemB ) {
 
             comparison = -1;
         }

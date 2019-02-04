@@ -177,12 +177,9 @@ var vanillaPress = {
 
     init: function() {
 
-    // Add any functions here you want
-    // to run to start the application
-        console.log( jsonData );
-
         model.init();
         router.init();
+        
     }
 
 };
