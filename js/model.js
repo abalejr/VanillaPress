@@ -3,6 +3,7 @@
  *
  */
 const model = {
+    //Sets sortSettings default values
     sortSettings: {
 
         sortOption: 'date',
@@ -69,7 +70,9 @@ model.getLocalStore = function( ) {
 
         let postData = JSON.parse( localStorage.getItem( localStorage.key( i ) ) );
 
-        posts.push( postData );
+        if ( postData.type === 'posts' ) {
+            posts.push( postData );
+        }
         
     }
 
@@ -87,9 +90,14 @@ model.updateLocalStore = function( store ) {
     let data = JSON.parse( store );
 
     for ( var i = 0, max = data.length; i < max ; i++ ) {
+
         let postData = data[i];
+
         localStorage.setItem( postData.slug, JSON.stringify( postData ) );
+
     }
+
+    localStorage.setItem( 'sortSettings', JSON.stringify( model.sortSettings ) );
 
 }
 
@@ -97,6 +105,7 @@ model.updateLocalStore = function( store ) {
 /**
  * Deletes data from local storage
  *
+ * @param name {string} (optional) The name of an item in localStorage. If null, localStorage is cleared
  */
 model.removeLocalStore = function( name ) {
 
@@ -112,33 +121,14 @@ model.removeLocalStore = function( name ) {
 
 }
 
+model.setSortSettings = function( sortSelectEl ) {
 
-/**
- * Gets the sort settings to be used. Date descending by default, user selection if applicable
- *
- * @return sortSettings {object} Current sort settings: sortOption and sortDirection
- *
- */
+    let selected = sortSelectEl.options[ sortSelectEl.selectedIndex ];
 
-model.setSortSettings = function() {
+    model.sortSettings.sortOption = selected.getAttribute('data-sort-option');
+    model.sortSettings.sortDirection = selected.getAttribute('data-sort-direction');
 
-    model.sortSettings.sortOption = this.dataset.sortOption;
-    model.sortSettings.sortDirection = this.dataset.sortDirection;
-
-}
-
-/**
- * Sorts posts when sort dropdown option is changed
- *
- * @param sortSettings {object} Object with sortOption and sortDirection values
- *
- * @return sortedPosts {array} Posts sorted according to user selected option
- */
-model.getSortedPosts = function( posts, sortSettings ) {
-
-    let sortedPosts = posts.sort( model.sortCompare );
-
-    return sortedPosts;
+    localStorage.setItem( 'sortSettings', JSON.stringify( model.sortSettings ) );
 
 }
 
@@ -146,13 +136,15 @@ model.getSortedPosts = function( posts, sortSettings ) {
  * Comparison function for post sorting
  *
  * @param a {object} First item to compare
- * @param b {object} Second object to compare
+ * @param b {object} Second item to compare
  *
  * @return comparison {integer} Result of the comparison
  */
 model.sortCompare = function( a, b ) {
+
     const sortOption = model.sortSettings.sortOption,
           sortDirection = model.sortSettings.sortDirection;
+
     let comparison = 0,
         itemA,
         itemB;
@@ -181,11 +173,11 @@ model.sortCompare = function( a, b ) {
 
     if ( sortDirection === 'ascending' ) {
 
-        if ( itemA < itemB ) {
+        if ( itemA > itemB ) {
 
             comparison = 1;
 
-        } else if ( itemA > itemB ) {
+        } else if ( itemA < itemB ) {
 
             comparison = -1;
 
@@ -193,11 +185,11 @@ model.sortCompare = function( a, b ) {
 
     } else if ( sortDirection === 'descending' ) {
 
-        if ( itemA > itemB ) {
+        if ( itemA < itemB ) {
 
             comparison = 1;
 
-        } else if ( itemA < itemB ) {
+        } else if ( itemA > itemB ) {
 
             comparison = -1;
         }

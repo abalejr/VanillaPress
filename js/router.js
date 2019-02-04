@@ -18,6 +18,7 @@ router.init = function() {
 
     router.loadContent();
     router.listenPageChange();
+    router.listenSortChange();
 
 }
 
@@ -37,6 +38,20 @@ router.getSlug = function() {
     }
 
     return slug.substring( 1 );
+
+};
+
+/**
+ * Listener function for sort order changes
+ *
+ */
+router.listenSortChange = function() {
+
+    const sortSettingsEl = helpers.getSortSettingsEl();
+    sortSettingsEl.onchange = function() {
+        model.setSortSettings( this );
+        router.loadContent();
+    };
 
 };
 
