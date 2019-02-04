@@ -8,6 +8,7 @@ const model = {
 
         sortOption: 'date',
         sortDirection: 'descending'
+
     }
 };
 
@@ -71,7 +72,9 @@ model.getLocalStore = function( ) {
         let postData = JSON.parse( localStorage.getItem( localStorage.key( i ) ) );
 
         if ( postData.type === 'posts' ) {
+
             posts.push( postData );
+
         }
         
     }
@@ -121,6 +124,10 @@ model.removeLocalStore = function( name ) {
 
 }
 
+/** Sets sortSettings based on user choice
+ *
+ * @param sortSelectEl {object} The select element where the user made to choice
+ */
 model.setSortSettings = function( sortSelectEl ) {
 
     let selected = sortSelectEl.options[ sortSelectEl.selectedIndex ];
