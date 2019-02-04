@@ -31,7 +31,7 @@ helpers.getPageContentEl = function() {
  *
  * @return sortOptionsEl {object} The select element with id sortOptions
  */
-helpers.getSortOptionsEl = function() {
+helpers.getSortSettingsEl = function() {
 
     return document.getElementById( 'sortOptions' );
 

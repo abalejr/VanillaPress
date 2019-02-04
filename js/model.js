@@ -17,14 +17,59 @@ model.init = function() {
 }
 
 /**
+ * Gets posts from local store
+ *
+ * @return posts {array} An array of post objects
+ */
+model.getPosts = function() {
+
+    let posts = model.getLocalStore();
+    return posts;
+
+}
+
+/**
+ * Get a single post based on url slug
+ *
+ * @param slug {string} Slug for the post
+ * @return post {object} Single post
+ */
+model.getPost = function( slug ) {
+
+    let posts = model.getLocalStore();
+    
+    for ( var i = 0, max = posts.length; i < max; i++ ) {
+        
+        if ( posts[i].slug === slug ) {
+
+            return posts[i];
+
+        }
+
+    }
+
+    return null;
+
+}
+
+/**
  * Gets content from local store
  *
- * @param name {string} Name of data to be retrieved
  * @return store {object} Object or array of objects of site data
  */
-model.getLocalStore = function( name ) {
+model.getLocalStore = function( ) {
 
-    return JSON.parse( localStorage.getItem( name ) );
+    let posts = [];
+
+    for ( var i = 0, max = localStorage.length; i < max; i++ ) {
+
+        let postData = JSON.parse( localStorage.getItem( localStorage.key( i ) ) );
+
+        posts.push( postData );
+        
+    }
+
+    return posts;
 
 }
 
@@ -39,149 +84,126 @@ model.updateLocalStore = function( store ) {
 
     for ( var i = 0, max = data.length; i < max ; i++ ) {
         let postData = data[i];
-        localStorage.setItem( currentData.slug, JSON.stringify( currentData ) );
+        localStorage.setItem( postData.slug, JSON.stringify( postData ) );
     }
 
-    model.buildPostArray();
+}
+
+
+/**
+ * Deletes data from local storage
+ *
+ */
+model.removeLocalStore = function() {
+
+    localStorage.removeItem( 'VanillaPress' );
+
+}
+
+
+/**
+ * Gets the sort settings to be used. Date descending by default, user selection if applicable
+ *
+ * @return sortSettings {object} Current sort settings: sortOption and sortDirection
+ *
+ */
+
+model.getSortSettings = function() {
+
+    const sortSettings = {};
+
+    sortSettings.sortOption = 'date';
+    sortSettings.sortDirection = 'descending';
+
+    if ( this ) {
+
+        sortSettings.sortOption = this.dataset.sortOption;
+        sortSettings.sortDirection = this.dataset.sortDirection;
+
+    }
+
+    return sortSettings;
+}
+
+/**
+ * Sorts posts when sort dropdown option is changed
+ *
+ * @param sortSettings {object} Object with sortOption and sortDirection values
+ *
+ * @return sortedPosts {array} Posts sorted according to user selected option
+ */
+model.getSortedPosts = function( sortSettings ) {
+
+    const sortOption = sortSettings.sortOption,
+          sortDirection = sortSettings.sortDirection;
+
+    let sortedPosts = model.buildPostArray();
+    sortedPosts.sort( model.sortCompare );
+
+    return sortedPosts;
 
 }
 
 /**
- * Creates an array of posts in local storage
+ * Comparison function for post sorting
  *
- * @return unsortedPosts {array} Array of posts
+ * @param a {object} First item to compare
+ * @param b {object} Second object to compare
+ *
+ * @return comparison {integer} Result of the comparison
  */
-model.buildPostArray = function() {
+model.sortCompare = function( a, b ) {
+    const sortOption = model.getSortSettings
+    let comparison = 0,
+        itemA,
+        itemB;
 
-    let unsortedPosts = [];
+    if ( sortOption === 'date' ) {
 
-    for ( var i = 0, max = localStorage.length; i < max; i++ ) {
-        let storedItem = JSON.parse( localStorage.getItem( localStorage.key( i ) ) );
-        if ( storedItem.type === 'posts' ) {
-            unsortedPosts.push( storedItem );
+        itemA = Date.parse( a.date );
+        itemB = Date.parse( b.date );
+
+    } else if ( sortOption === 'modified' ) {
+
+        itemA = Date.parse( a.modified );
+        itemB = Date.parse( b.modified );
+
+    } else if ( sortOption === 'title' ) {
+
+        itemA = a.title;
+        itemB = b.title;
+
+    } else if ( sortOption === 'id' ) {
+
+        itemA = a.id;
+        itemB = b.id;
+
+    }
+
+    if ( sortDirection === 'ascending' ) {
+
+        if ( itemA > itemB ) {
+
+            comparison = 1;
+
+        } else if ( itemA < itemB ) {
+
+            comparison = -1;
+
         }
-    }
 
-    return unsortedPosts;
-}
+    } else if ( sortDirection === 'descending' ) {
 
-model.selectSortOption = function() {
-    switch ( this.value ) {
-        case 'byDateAscending':
-            sortedPosts.sort( vanillaPress.sortOptions.byDateAscending );
-            break;
-        case 'byIdAscending':
-            sortedPosts.sort( vanillaPress.sortOptions.byIdAscending );
-            break;
-        case 'byModifiedAscending':
-            sortedPosts.sort( vanillaPress.sortOptions.byModifiedAscending );
-            break;
-        case 'byTitleAscending':
-            sortedPosts.sort( vanillaPress.sortOptions.byTitleAscending );
-            break;
-        case 'byDateDescending':
-            sortedPosts.sort( vanillaPress.sortOptions.byDateDescending );
-            break;
-        case 'byIdDescending':
-            sortedPosts.sort( vanillaPress.sortOptions.byDateDescending );
-            break;
-        case 'byModifiedDescending':
-            sortedPosts.sort( vanillaPress.sortOptions.byModifiedDescending );
-            break;
-        case 'byTitleDescending':
-            sortedPosts.sort( vanillaPress.sortOptions.byTitleDescending );
-    }
-    vanillaPress.displayAll();
-}
+        if ( itemA < itemB ) {
 
-model.setSortOption = function( sortOption, ascOrDesc )
-    sortOptions: {
-        byDateAscending: function( a, b ) {
-            const dateA = Date.parse( a.date ),
-                  dateB = Date.parse( b.date );
-            let comparison = 0;
-            if ( dateA > dateB ) {
-                comparison = 1;
-            } else if ( dateA < dateB ) {
-                comparison = -1;
-            }
-            return comparison;
-        },
-        byIdAscending: function( a, b ) {
-            const idA = a.id,
-                  idB = b.id;
-            let comparison = 0;
-            if ( idA > idB ) {
-                comparison = 1;
-            } else if ( idA < idB ) {
-                comparison = -1;
-            }
-            return comparison;
-        },
-        byModifiedAscending: function( a, b ) {
-            const dateA = Date.parse( a.modified ),
-                  dateB = Date.parse( b.modified );
-            let comparison = 0;
-            if ( dateA > dateB ) {
-                comparison = 1;
-            } else if ( dateA < dateB ) {
-                comparison = -1;
-            }
-            return comparison;
-        },
-        byTitleAscending: function( a, b ) {
-            const titleA = a.title,
-                  titleB = b.title;
-            let comparison = 0;
-            if ( titleA > titleB ) {
-                comparison = 1;
-            } else if ( titleA < titleB ) {
-                comparison = -1;
-            }
-            return comparison;
-        },
-        byDateDescending: function( a, b ) {
-            const dateA = Date.parse( a.date ),
-                  dateB = Date.parse( b.date );
-            let comparison = 0;
-            if ( dateA < dateB ) {
-                comparison = 1;
-            } else if ( dateA > dateB ) {
-                comparison = -1;
-            }
-            return comparison;
-        },
-        byIdDescending: function( a, b ) {
-            const idA = a.id,
-                  idB = b.id;
-            let comparison = 0;
-            if ( idA < idB ) {
-                comparison = 1;
-            } else if ( idA > idB ) {
-                comparison = -1;
-            }
-            return comparison;
-        },
-        byModifiedDescending: function( a, b ) {
-            const dateA = Date.parse( a.modified ),
-                  dateB = Date.parse( b.modified );
-            let comparison = 0;
-            if ( dateA < dateB ) {
-                comparison = 1;
-            } else if ( dateA > dateB ) {
-                comparison = -1;
-            }
-            return comparison;
-        },
-        byTitleDescending: function( a, b ) {
-            const titleA = a.title,
-                  titleB = b.title;
-            let comparison = 0;
-            if ( titleA < titleB ) {
-                comparison = 1;
-            } else if ( titleA > titleB ) {
-                comparison = -1;
-            }
-            return comparison;
+            comparison = 1;
+
+        } else if ( itemA > itemB ) {
+
+            comparison = -1;
         }
+
     }
+
+    return comparison;
+}

@@ -4,6 +4,8 @@
  * The main app object.
  *
  */
+
+/*
 const vanillaPress = {
     init: function() {
         storePosts();
@@ -169,5 +171,19 @@ const vanillaPress = {
             return comparison;
         }
     }
+};
+*/
+var vanillaPress = {
+
+    init: function() {
+
+    // Add any functions here you want
+    // to run to start the application
+        console.log( jsonData );
+
+        model.init();
+        router.init();
+    }
+
 };
 vanillaPress.init();
