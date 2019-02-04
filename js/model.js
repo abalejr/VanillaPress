@@ -98,9 +98,17 @@ model.updateLocalStore = function( store ) {
  * Deletes data from local storage
  *
  */
-model.removeLocalStore = function() {
+model.removeLocalStore = function( name ) {
 
-    localStorage.removeItem( 'VanillaPress' );
+    if ( name === null ) {
+
+        localStorage.clear();
+
+    } else {
+
+        localStorage.removeItem( name );
+
+    }    
 
 }
 
