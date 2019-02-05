@@ -61,9 +61,9 @@ model.getPost = function( slug ) {
 };
 
 /**
- * Gets content from local store
+ * Gets posts from local store
  *
- * @return store {object} Object or array of objects of site data
+ * @return posts {array} Array of posts in localStorage
  */
 model.getLocalStorePosts = function( ) {
 
@@ -123,7 +123,7 @@ model.updateLocalStore = function( store ) {
  */
 model.removeLocalStore = function( name ) {
 
-    if ( name === null ) {
+    if ( !name ) {
 
         localStorage.clear();
 
@@ -135,6 +135,11 @@ model.removeLocalStore = function( name ) {
 
 };
 
+/**
+ * Returns an array or sortSettings objects
+ *
+ * @return possibleSortSettings {array} List of all possible sortSettings
+ */
 model.generatePossibleSortSettings = function() {
 
     let options = model.sortOptions,

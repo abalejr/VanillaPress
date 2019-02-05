@@ -45,6 +45,10 @@ view.loadBlogPost = function( slug ) {
 
 };
 
+/**
+ * Loads a dropdown with sort options
+ *
+ */
 view.loadSortSelect = function () {
 
     let possibleSettings = model.generatePossibleSortSettings(),
@@ -64,6 +68,12 @@ view.loadSortSelect = function () {
     sidebarEl.appendChild( selectEl );
 }
 
+/**
+ * Creates markup for the sort order dropdown options
+ *
+ * @param setting {object} sortSetting possibility
+ * @return optionEl {object} Option element to be added to sort order dropdown
+ */
 view.createOptionsMarkup = function( setting ) {
 
     let optionEl = document.createElement( 'option' ),
