@@ -21,7 +21,7 @@ view.loadBlogPosts = function() {
 
     for ( var i = 0, max = posts.length; i < max; i++ ) {
 
-        postMarkup.appendChild( view.createPostMarkup( posts[i] ) );
+        postMarkup.appendChild( view.createPostMarkup( posts[ i ] ) );
 
     }
 
@@ -42,6 +42,41 @@ view.loadBlogPost = function( slug ) {
 
     titleEl.innerHTML = post.title;
     contentEl.innerHTML = post.content;
+
+};
+
+view.loadSortSelect = function () {
+
+    let possibleSettings = model.generatePossibleSortSettings(),
+        optionsMarkup = document.createDocumentFragment(),
+        selectEl = document.createElement( 'select' );
+
+    const sidebarEl = helpers.getSidebarEl();
+
+    for ( var i = 0, max = possibleSettings.length; i < max; i++ ) {
+        
+        optionsMarkup.appendChild( view.createOptionsMarkup( possibleSettings[ i ] ) );
+
+    }
+    selectEl.setAttribute( 'id', 'sortOptions' );
+    selectEl.appendChild( optionsMarkup );
+
+    sidebarEl.appendChild( selectEl );
+}
+
+view.createOptionsMarkup = function( setting ) {
+
+    let optionEl = document.createElement( 'option' ),
+        sortOption = setting.sortOption,
+        sortDirection = setting.sortDirection,
+        settingLabel = document.createTextNode( sortOption.charAt(0).toUpperCase() + sortOption.substr(1) + ' - ' + sortDirection.charAt(0).toUpperCase() + sortDirection.substr(1) );
+
+    optionEl.setAttribute( 'data-sort-option', sortOption );
+    optionEl.setAttribute( 'data-sort-direction', sortDirection );
+
+    optionEl.appendChild( settingLabel );
+
+    return optionEl;
 
 };
 
@@ -79,9 +114,20 @@ view.createPostMarkup = function( post ) {
 view.clearContent = function() {
 
     let titleEl = helpers.getPageTitleEl(),
-        contentEl = helpers.getPageContentEl();
+        contentEl = helpers.getPageContentEl(),
+        sortSelectEl = helpers.getSortSelectEl();
 
     titleEl.innerHTML = '';
     contentEl.innerHTML = '';
+
+    if ( sortSelectEl ) {
+
+        if ( sortSelectEl.style.display != 'none' ) {
+
+            sortSelectEl.style.display = 'none';
+
+        }
+
+    }
 
 };

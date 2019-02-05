@@ -27,11 +27,22 @@ helpers.getPageContentEl = function() {
 };
 
 /**
+ * Get the sidebar element of the current page
+ *
+ * @return sidebarEl {object} The element with id pageContent
+ */
+helpers.getSidebarEl = function() {
+
+    return document.getElementsByClassName( 'sidebar' )[0];
+
+};
+
+/**
  * Get the main content element of the current page
  *
  * @return sortOptionsEl {object} The select element with id sortOptions
  */
-helpers.getSortSettingsEl = function() {
+helpers.getSortSelectEl = function() {
 
     return document.getElementById( 'sortOptions' );
 

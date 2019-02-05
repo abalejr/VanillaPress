@@ -47,7 +47,7 @@ router.getSlug = function() {
  */
 router.listenSortChange = function() {
 
-    const sortSettingsEl = helpers.getSortSettingsEl();
+    const sortSettingsEl = helpers.getSortSelectEl();
     sortSettingsEl.onchange = function() {
         model.setSortSettings( this );
         router.loadContent();
@@ -71,13 +71,19 @@ router.listenPageChange = function() {
  */
 router.loadContent = function() {
 
-    let slug = router.getSlug();
+    let slug = router.getSlug()
+        sortSelectEl = helpers.getSortSelectEl();
 
     view.clearContent();
 
     if ( slug === null ) {
 
         view.loadBlogPosts();
+        if ( !sortSelectEl ) {
+            view.loadSortSelect();
+        } else if ( sortSelectEl.style.display === 'none' ) {
+            sortSelectEl.style.display = 'block';
+        }
 
     } else {
 

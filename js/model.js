@@ -9,7 +9,9 @@ const model = {
         sortOption: 'date',
         sortDirection: 'descending'
 
-    }
+    },
+    sortOptions: [ 'date', 'modified', 'id', 'title' ],
+    sortDirections: [ 'descending', 'ascending' ]
 };
 
 /**
@@ -123,6 +125,26 @@ model.removeLocalStore = function( name ) {
     }    
 
 };
+
+model.generatePossibleSortSettings = function() {
+
+    let options = model.sortOptions,
+        directions = model.sortDirections,
+        possibleSortSettings = [];
+
+    for(var o = 0, oMax = options.length; o < oMax; o++) {
+
+        for(var d = 0, dMax = directions.length; d < dMax; d++) {
+
+            possibleSortSettings.push( { sortOption: options[ o ], sortDirection: directions[ d ] } );
+
+        }
+
+    }
+
+    return possibleSortSettings;
+
+}
 
 /** Sets sortSettings based on user choice
  *
