@@ -61,6 +61,42 @@ model.getPost = function( slug ) {
 };
 
 /**
+ * Gets pages from local store
+ *
+ * @return pages {array} An array of page objects
+ */
+model.getPages = function() {
+
+    let pages = model.getLocalStorePages();
+    return pages;
+
+};
+
+/**
+ * Get a single page based on url slug
+ *
+ * @param slug {string} Slug for the page
+ * @return page {object} Single page
+ */
+model.getPost = function( slug ) {
+
+    let pages = model.getLocalStorePages();
+    
+    for ( var i = 0, max = pages.length; i < max; i++ ) {
+        
+        if ( pages[i].slug === slug ) {
+
+            return pages[i];
+
+        }
+
+    }
+
+    return null;
+
+};
+
+/**
  * Gets posts from local store
  *
  * @return posts {array} Array of posts in localStorage
@@ -82,6 +118,31 @@ model.getLocalStorePosts = function( ) {
     }
 
     return posts.sort( model.sortCompare );
+
+};
+
+/**
+ * Gets pages from local store
+ *
+ * @return pages {array} Array of pages in localStorage
+ */
+model.getLocalStorePages = function( ) {
+
+    let pages = [];
+
+    for ( var i = 0, max = localStorage.length; i < max; i++ ) {
+
+        let pageData = JSON.parse( localStorage.getItem( localStorage.key( i ) ) );
+
+        if ( pageData.type === 'page' ) {
+
+            pages.push( pageData );
+
+        }
+        
+    }
+
+    return pages;
 
 };
 
