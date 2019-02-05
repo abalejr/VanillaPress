@@ -31,7 +31,7 @@ model.init = function() {
  */
 model.getPosts = function() {
 
-    let posts = model.getLocalStore();
+    let posts = model.getLocalStorePosts();
     return posts;
 
 };
@@ -44,7 +44,7 @@ model.getPosts = function() {
  */
 model.getPost = function( slug ) {
 
-    let posts = model.getLocalStore();
+    let posts = model.getLocalStorePosts();
     
     for ( var i = 0, max = posts.length; i < max; i++ ) {
         
@@ -65,7 +65,7 @@ model.getPost = function( slug ) {
  *
  * @return store {object} Object or array of objects of site data
  */
-model.getLocalStore = function( ) {
+model.getLocalStorePosts = function( ) {
 
     let posts = [];
 
@@ -73,7 +73,7 @@ model.getLocalStore = function( ) {
 
         let postData = JSON.parse( localStorage.getItem( localStorage.key( i ) ) );
 
-        if ( postData.type === 'posts' ) {
+        if ( postData.type === 'post' ) {
 
             posts.push( postData );
 
@@ -92,13 +92,22 @@ model.getLocalStore = function( ) {
  */
 model.updateLocalStore = function( store ) {
 
-    let data = JSON.parse( store );
+    let postData = JSON.parse( store )['posts'],
+        pageData = JSON.parse( store )['pages'];
 
-    for ( var i = 0, max = data.length; i < max ; i++ ) {
+    for ( var i = 0, max = postData.length; i < max ; i++ ) {
 
-        let postData = data[i];
+        let singlePostData = postData[i];
 
-        localStorage.setItem( postData.slug, JSON.stringify( postData ) );
+        localStorage.setItem( singlePostData.slug, JSON.stringify( singlePostData ) );
+
+    }
+
+    for ( var i = 0, max = pageData.length; i < max ; i++ ) {
+
+        let singlePageData = pageData[i];
+
+        localStorage.setItem( singlePageData.slug, JSON.stringify( singlePageData ) );
 
     }
 
