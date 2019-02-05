@@ -46,6 +46,22 @@ view.loadBlogPost = function( slug ) {
 };
 
 /**
+ * Loads a single blog post
+ *
+ * @param slug {string} Slug of post to load
+ */
+view.loadPage = function( slug ) {
+
+    let page = model.getPage( slug );
+    const titleEl = helpers.getPageTitleEl(),
+          contentEl = helpers.getPageContentEl();
+
+    titleEl.innerHTML = page.title;
+    contentEl.innerHTML = page.content;
+
+};
+
+/**
  * Loads a dropdown with sort options
  *
  */
