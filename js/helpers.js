@@ -47,3 +47,14 @@ helpers.getSortSelectEl = function() {
     return document.getElementById( 'sortOptions' );
 
 };
+
+/**
+ * Get the main content element of the current page
+ *
+ * @return sortOptionsEl {object} The select element with id sortOptions
+ */
+helpers.getNavListEl = function() {
+
+    return document.querySelector( '#mainNav ul' );
+
+};

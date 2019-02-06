@@ -31,7 +31,7 @@ model.init = function() {
  */
 model.getPosts = function() {
 
-    let posts = model.getLocalStorePosts();
+    let posts = model.getLocalStoreBlogPosts();
     return posts;
 
 };
@@ -44,7 +44,7 @@ model.getPosts = function() {
  */
 model.getPost = function( slug ) {
 
-    let posts = model.getLocalStorePosts();
+    let posts = model.getLocalStoreBlogPosts();
     
     for ( var i = 0, max = posts.length; i < max; i++ ) {
         
@@ -78,7 +78,31 @@ model.getPages = function() {
  * @param slug {string} Slug for the page
  * @return page {object} Single page
  */
-model.getPost = function( slug ) {
+model.getPage = function( slug ) {
+
+    let pages = model.getLocalStorePages();
+    
+    for ( var i = 0, max = pages.length; i < max; i++ ) {
+        
+        if ( pages[i].slug === slug ) {
+
+            return pages[i];
+
+        }
+
+    }
+
+    return null;
+
+};
+
+/**
+ * Get a single post based on url slug
+ *
+ * @param slug {string} Slug for the post
+ * @return post {object} Single post
+ */
+model.getPage = function( slug ) {
 
     let pages = model.getLocalStorePages();
     
@@ -101,7 +125,7 @@ model.getPost = function( slug ) {
  *
  * @return posts {array} Array of posts in localStorage
  */
-model.getLocalStorePosts = function( ) {
+model.getLocalStoreBlogPosts = function( ) {
 
     let posts = [];
 
@@ -109,7 +133,7 @@ model.getLocalStorePosts = function( ) {
 
         let postData = JSON.parse( localStorage.getItem( localStorage.key( i ) ) );
 
-        if ( postData.type === 'post' ) {
+        if ( postData.type === 'post' && postData.slug.includes( 'blog' ) ) {
 
             posts.push( postData );
 
@@ -142,7 +166,25 @@ model.getLocalStorePages = function( ) {
         
     }
 
-    return pages;
+    return pages.sort( function( a, b ) {
+
+        let orderA = a.menu_order,
+            orderB = b.menu_order,
+            comparison = 0;
+
+        if ( orderA > orderB ) {
+
+            comparison = 1;
+
+        } else if ( orderA < orderB ) {
+
+            comparison = -1;
+
+        }
+
+        return comparison;
+
+    });
 
 };
 
@@ -219,7 +261,7 @@ model.generatePossibleSortSettings = function() {
 
     return possibleSortSettings;
 
-}
+};
 
 /** Sets sortSettings based on user choice
  *

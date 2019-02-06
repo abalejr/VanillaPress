@@ -8,7 +8,7 @@ var posts =
         "id":1,
         "date":"2016-01-09T22:05:09",
         "modified":"2016-01-09T22:05:09",
-        "slug":"hello-world",
+        "slug":"blog/hello-world",
         "type":"post",
         "title":"Hello world!",
         "content":"Welcome to WordPress. This is your first post. Edit or delete it, then start writing!"
@@ -17,7 +17,7 @@ var posts =
         "id":2,
         "date":"2016-01-10T22:05:09",
         "modified":"2016-01-10T22:05:09",
-        "slug":"learning-javascript",
+        "slug":"blog/learning-javascript",
         "type":"post",
         "title":"Learning JavaScript!",
         "content":"I'm learning JavaScript and super excited!!!"
@@ -26,7 +26,7 @@ var posts =
         "id":3,
         "date":"2016-01-11T22:05:09",
         "modified":"2016-01-11T22:05:09",
-        "slug":"rest-api",
+        "slug":"blog/rest-api",
         "type":"post",
         "title":"The REST API!",
         "content":"I've started working with the REST API in WordPress, what fun!"
@@ -35,7 +35,7 @@ var posts =
         "id":4,
         "date":"2016-01-12T22:05:09",
         "modified":"2016-01-12T22:05:09",
-        "slug":"json-data",
+        "slug":"blog/json-data",
         "type":"post",
         "title":"JSON Data!",
         "content":"So, with the REST API it is posible to pull in WordPress data as pure JSON.  Now I'm figuring out what to do with the data"
@@ -44,7 +44,7 @@ var posts =
         "id":5,
         "date":"2016-01-13T22:05:09",
         "modified":"2016-01-13T22:05:09",
-        "slug":"javascript-project",
+        "slug":"blog/javascript-project",
         "type":"post",
         "title":"JavaScript Project",
         "content":"I've started working with the REST API in WordPress, what fun!"
@@ -59,7 +59,8 @@ var posts =
         "slug":"home",
         "type":"page",
         "title":"Home",
-        "content":"Welcome to VanillaPress, my JavaScript site!"
+        "content":"Welcome to VanillaPress, my JavaScript site!",
+        "menu_order": 1
       },
       {
         "id":7,
@@ -68,7 +69,8 @@ var posts =
         "slug":"about",
         "type":"page",
         "title":"About",
-        "content":"A little about me!"
+        "content":"A little about me!",
+        "menu_order": 2
       },
       {
         "id":8,
@@ -77,7 +79,8 @@ var posts =
         "slug":"blog",
         "type":"page",
         "title":"Blog",
-        "content":"Please enjoy my posts"
+        "content":"Please enjoy my posts",
+        "menu_order": 3
       },
       {
         "id":9,
@@ -86,7 +89,8 @@ var posts =
         "slug":"contact",
         "type":"page",
         "title":"Contact",
-        "content":"Drop me a line with any questions :)"
+        "content":"Drop me a line with any questions :)",
+        "menu_order": 4
       }
     ]
     jsonData = JSON.stringify( { "posts": posts, "pages": pages } );

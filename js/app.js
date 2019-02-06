@@ -10,6 +10,7 @@ const vanillaPress = {
     init: function() {
 
         model.init();
+        view.init();
         router.init();
 
     }

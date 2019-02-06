@@ -78,16 +78,24 @@ router.loadContent = function() {
 
     if ( slug === null ) {
 
+        view.loadPage( 'home' );
+
+    } else if ( slug === 'blog' ) {
+
+        view.loadPage( slug );
         view.loadBlogPosts();
-        if ( !sortSelectEl ) {
-            view.loadSortSelect();
-        } else if ( sortSelectEl.style.display === 'none' ) {
+
+        if ( sortSelectEl.style.display === 'none' ) {
             sortSelectEl.style.display = 'block';
         }
 
-    } else {
+    } else if ( slug != 'blog' && slug.includes( 'blog' ) ) {
 
         view.loadBlogPost( slug );
+
+    } else {
+
+        view.loadPage( slug );
 
     }
 

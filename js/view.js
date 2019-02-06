@@ -10,6 +10,69 @@
 const view = {};
 
 /**
+ * Initializes the view
+ *
+ */
+view.init = function () {
+
+    view.loadNav();
+    view.loadSortSelect();
+
+};
+
+/**
+ * Loads the navigation menu
+ *
+ */
+view.loadNav = function() {
+
+    let pages = model.getPages(),
+        pageLinkMarkup = document.createDocumentFragment();
+
+    const navListEl = helpers.getNavListEl();
+
+    for ( var i = 0, max = pages.length; i < max; i++ ) {
+
+        pageLinkMarkup.appendChild( view.createNavListMarkup( pages[ i ] ) );
+
+    }
+
+    navListEl.appendChild( pageLinkMarkup );
+
+};
+
+/**
+ * Creates Markup for Nav Menu List Items
+ *
+ * @param page {object} Page to create link markup for
+ * @return listItemEl {object} Final nav link markup
+ */
+view.createNavListMarkup = function( page ) {
+
+    let listItemEl = document.createElement( 'li' ),
+        pageLink = document.createElement( 'a' ),
+        pageLinkText = document.createTextNode( page.title ),
+        pageSlug = page.slug;
+
+    pageLink.appendChild( pageLinkText );
+
+    if ( pageSlug != 'home' ) {
+
+        pageLink.href = '#' + page.slug;
+
+    } else {
+
+        pageLink.href = '#';
+
+    }
+
+    listItemEl.appendChild( pageLink );
+
+    return listItemEl;
+
+};
+
+/**
  * Gets blog posts and appends them to the page
  *
  */
@@ -46,9 +109,9 @@ view.loadBlogPost = function( slug ) {
 };
 
 /**
- * Loads a single blog post
+ * Loads a single page
  *
- * @param slug {string} Slug of post to load
+ * @param slug {string} Slug of page to load
  */
 view.loadPage = function( slug ) {
 
@@ -80,9 +143,10 @@ view.loadSortSelect = function () {
     }
     selectEl.setAttribute( 'id', 'sortOptions' );
     selectEl.appendChild( optionsMarkup );
+    selectEl.style.display = 'none';
 
     sidebarEl.appendChild( selectEl );
-}
+};
 
 /**
  * Creates markup for the sort order dropdown options
@@ -118,13 +182,16 @@ view.createPostMarkup = function( post ) {
         titleEl = document.createElement( 'h3' ),
         titleLink = document.createElement( 'a' ),
         titleText = document.createTextNode( post.title ),
-        contentEl = document.createElement( 'div' );
+        contentEl = document.createElement( 'div' ),
+        contentParagraphEl = document.createElement( 'p' ),
+        contentText = document.createTextNode( post.content );
 
     titleLink.appendChild( titleText );
     titleLink.href = '#' + post.slug;
     titleEl.appendChild( titleLink );
 
-    contentEl.innerHTML = post.content;
+    contentParagraphEl.appendChild( contentText );
+    contentEl.appendChild( contentParagraphEl );
 
     articleEl.appendChild( titleEl );
     articleEl.appendChild( contentEl );
