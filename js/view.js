@@ -120,12 +120,17 @@ view.loadBlogPost = function( slug ) {
  */
 view.loadPage = function( slug ) {
 
-    let page = model.getPage( slug );
+    let page = model.getPage( slug ),
+        pageContent = document.createTextNode( page.content );
+        contentParagraphEl = document.createElement( 'p' );
     const titleEl = helpers.getPageTitleEl(),
           contentEl = helpers.getPageContentEl();
 
     titleEl.innerHTML = page.title;
-    contentEl.innerHTML = page.content;
+    
+    contentParagraphEl.appendChild( pageContent );
+
+    contentEl.appendChild( contentParagraphEl );
 
 };
 
