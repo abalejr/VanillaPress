@@ -99,12 +99,17 @@ view.loadBlogPosts = function() {
  */
 view.loadBlogPost = function( slug ) {
 
-    let post = model.getPost( slug );
+    let post = model.getPost( slug ),
+        postContent = document.createTextNode( post.content );
+        contentParagraphEl = document.createElement( 'p' );
     const titleEl = helpers.getPageTitleEl(),
           contentEl = helpers.getPageContentEl();
 
     titleEl.innerHTML = post.title;
-    contentEl.innerHTML = post.content;
+    
+    contentParagraphEl.appendChild( postContent );
+
+    contentEl.appendChild( contentParagraphEl );
 
 };
 
